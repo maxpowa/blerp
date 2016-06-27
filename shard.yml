@@ -1,0 +1,19 @@
+name: blerp
+version: 0.1.0
+
+authors:
+  - Max Gurela <max.gurela@outlook.com>
+  - Chris Hobbs <chris@rx14.co.uk>
+
+description: "http://xkcd.com/1692/"
+
+# dependencies:
+#   pg:
+#     github: will/crystal-pg
+#     version: "~> 0.5"
+
+# development_dependencies:
+#   webmock:
+#     github: manastech/webmock
+
+license: MIT
