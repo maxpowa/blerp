@@ -2,6 +2,9 @@
 http://xkcd.com/1692/
 
 
+![blerp man page](http://imgs.xkcd.com/comics/man_page.png)
+
+
 #### Brainstorming
 
 |flag |desc|
