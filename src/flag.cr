@@ -1,18 +1,22 @@
 class OptionFlag
 
-  @@subclasses = { } of String => OptionFlag
+  @@flags = { } of Symbol => OptionFlag
 
-  def self.create (type)
-    c = @@subclasses[type]
-    if c
-      c.new
-    else
-      raise "y u do dis gooby"
-    end
+  def register_flag (name)
+    @@flags[name] = self
   end
 
-  def self.register_flag (name)
-    @@sublcasses[name] = self
+  # Actual OptionFlag methods
+
+  def initialize (name : Symbol, key : String, desc : String, &block)
+    @name = name
+    @key = key
+    @desc = desc
+    self.register_flag (name)
+  end
+
+  def name
+    "#{@name.to_s.capitalize}OptionFlag"
   end
 
   def self.handle_flag (blerp, parser, data)
@@ -21,8 +25,8 @@ class OptionFlag
 
 end
 
-def define_flag (name, desc, superclass=OptionFlag, &block)
-  c = Class.new(superclass, &block)
-  c.register_flag(name)
-  Object.const_set("#{name.to_s.capitalize}OptionFlag", c)
+def define_flag (name, key, desc, &block)
+  c = OptionFlag.new name, key, desc, &block
+  puts("#{c.name} registered")
+  #Object.const_set("#{name.to_s.capitalize}OptionFlag", c)
 end

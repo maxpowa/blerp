@@ -1,7 +1,8 @@
 require "../flag.cr"
 
-register_flag "-O", "OPPOSITE DAY" do
-  def handle_flag (blerp, parser, data)
-    puts "opposite day"
-  end
+define_flag :opposite, "-O", "OPPOSITE DAY", do
+  # def handle_flag (blerp, parser, data)
+  #   puts "opposite day"
+  # end
+  puts "opposite day"
 end
