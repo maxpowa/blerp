@@ -4,6 +4,8 @@ module Blerp
   #puts "#{Blerp::VERSION}"
 
   data = { } of Symbol => String
+  data[:input] = ""
+  data[:output] = ""
 
   parser = OptionParser.new
 
@@ -15,13 +17,17 @@ module Blerp
     }
   end
 
+  parser.unknown_args do | arr, arr2 |
+    #puts "#{arr} #{arr2}"
+  end
+
   begin
     parser.parse!
   rescue ex : OptionParser::InvalidOption
     # nop
   end
 
-  puts parser
+  #puts parser
 
   #puts "#{Blerp::CommandFlag.flags}"
 end
