@@ -15,4 +15,4 @@ all_spec
 /src/ext/*.o
 /src/ext/libcrystal.a
 
-blerp
+/blerp
