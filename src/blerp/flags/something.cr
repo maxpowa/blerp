@@ -7,5 +7,5 @@ define_flag :execute, "-e", "EXECUTE SOMETHING", do | parser, data |
   output = MemoryIO.new
   Process.run(command, shell: true, output: output, error: output)
   output.close
-  puts output.to_s
+  data[:output].as(Array(String)) << output.to_s
 end

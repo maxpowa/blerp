@@ -3,9 +3,10 @@ require "./blerp/**"
 module Blerp
   #puts "#{Blerp::VERSION}"
 
-  data = { } of Symbol => String
+  data = { } of Symbol => String | Array(String)
+  data[:args] = ARGV
   data[:input] = ""
-  data[:output] = ""
+  data[:output] = [] of String
 
   parser = OptionParser.new
 
@@ -22,9 +23,13 @@ module Blerp
   end
 
   begin
-    parser.parse!
+    parser.parse data[:args].as(Array(String))
   rescue ex : OptionParser::InvalidOption
     # nop
+  end
+
+  data[:output].as(Array(String)).each do |line|
+    puts line
   end
 
   #puts parser

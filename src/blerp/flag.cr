@@ -12,7 +12,7 @@ module Blerp
 
     # Actual OptionFlag methods
 
-    def initialize (name : Symbol, key : String, desc : String, &block : OptionParser, Hash(Symbol, String) ->)
+    def initialize (name : Symbol, key : String, desc : String, &block : OptionParser, Hash(Symbol, String | Array(String)) ->)
       @name = name
       @key = key
       @desc = desc
@@ -39,7 +39,7 @@ module Blerp
 
   end
 
-  def define_flag (name, key, desc, &block : OptionParser, Hash(Symbol, String) ->)
+  def define_flag (name, key, desc, &block : OptionParser, Hash(Symbol, String | Array(String)) ->)
     CommandFlag.new name, key, desc, &block
   end
 
