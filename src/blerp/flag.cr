@@ -2,45 +2,36 @@ require "option_parser"
 
 module Blerp
 
-  class CommandFlag
+  abstract class Flag
 
-    @@flags = { } of Symbol => CommandFlag
+    @@flags = { } of Symbol => Flag
 
     def self.flags
       @@flags
     end
 
-    # Actual OptionFlag methods
-
-    def initialize (name : Symbol, key : String, desc : String, &block : OptionParser, Hash(Symbol, String | Array(String)) ->)
-      @name = name
-      @key = key
-      @desc = desc
-      @handler = block
-      @@flags[name] = self
+    def self.register(instance)
+      @@flags[instance.name] = instance
     end
 
-    def name
-      "#{@name.to_s.capitalize}CommandFlag"
+    macro inherited
+      getter name : Symbol
+      getter key : String
+      getter description : String
     end
 
-    def key
-      @key
+    def process(parser, data)
+      # optional implementation
     end
 
-    def desc
-      @desc
+    def preprocess(parser, data)
+      # optional implementation
     end
 
-    # Call the handler block
-    def handle_flag (parser, data)
-      @handler.call parser, data
+    def postprocess(parser, data)
+      # optional implementation
     end
 
-  end
-
-  def define_flag (name, key, desc, &block : OptionParser, Hash(Symbol, String | Array(String)) ->)
-    CommandFlag.new name, key, desc, &block
   end
 
 end

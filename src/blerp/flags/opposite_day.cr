@@ -1,7 +1,13 @@
 require "../flag.cr"
 
-include Blerp
+class Opposite < Blerp::Flag
+  @name = :opposite
+  @key = "-O"
+  @description = "OPPOSITE DAY"
 
-define_flag :opposite, "-O", "OPPOSITE DAY", do | parser, data |
-  data[:opposite] = "true"
+  def process(parser, data)
+    data[self.name] = "true"
+  end
 end
+
+Blerp::Flag.register Opposite.new

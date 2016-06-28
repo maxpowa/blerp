@@ -3,18 +3,26 @@ require "./blerp/**"
 module Blerp
   #puts "#{Blerp::VERSION}"
 
-  data = { } of Symbol => String | Array(String)
+  data = { } of Symbol => String | Array(String) | Array(Symbol)
   data[:args] = ARGV
   data[:input] = ""
   data[:output] = [] of String
+  data[:processed_flags] = [] of Symbol
+
+  data[:output].as(Array(String)) << "bees"
 
   parser = OptionParser.new
 
-  parser.banner = "Usage: blerp [arguments]"
+  parser.banner = "Usage:\tblerp {[OPTION|ARGS]...[ARGS...-f [FLAGS]...}\n\tblerp {...DIRECTORY...URL|BLERP} OPTIONS]-{}"
 
-  Blerp::CommandFlag.flags.each do |key, val|
-    parser.on(val.key, val.desc) {
-      val.handle_flag(parser, data)
+  Blerp::Flag.flags.each do |name, flag|
+    # Do any required preprocessing
+    flag.preprocess(parser, data)
+
+    # And add the option parser flag
+    parser.on(flag.key, flag.description) {
+      flag.process(parser, data)
+      data[:processed_flags].as(Array(Symbol)) << flag.name
     }
   end
 
@@ -28,11 +36,14 @@ module Blerp
     # nop
   end
 
+  Blerp::Flag.flags.each do |name, flag|
+    if data[:processed_flags].as(Array(Symbol)).includes?(name)
+      flag.postprocess(parser, data)
+    end
+  end
+
   data[:output].as(Array(String)).each do |line|
     puts line
   end
 
-  #puts parser
-
-  #puts "#{Blerp::CommandFlag.flags}"
 end
